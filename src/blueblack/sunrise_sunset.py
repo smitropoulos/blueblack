@@ -65,6 +65,12 @@ class sunrise:
 
         return now_time < upperDatetime and now_time > lowerDatetime
 
+    def time_diff(self, dateTime1: datetime.datetime, dateTime2: datetime.datetime):
+        hours_diff = abs(dateTime1.time().hour - dateTime2.time().hour)
+        mins_diff = abs(dateTime1.time().minute - dateTime2.time().minute)
+        time_delta = datetime.timedelta(hours=hours_diff, minutes=mins_diff)
+        logger.debug(f"Time_diff - {time_delta}")
+
     def past_time(self, time: datetime.datetime):
         return datetime.datetime.now() > time
 
