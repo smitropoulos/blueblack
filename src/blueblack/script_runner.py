@@ -1,7 +1,7 @@
 import subprocess
 import xdg_base_dirs
 import os
-from local_logging import logger
+from .local_logging import logger
 
 
 class script_runner:

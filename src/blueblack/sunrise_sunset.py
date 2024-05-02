@@ -1,12 +1,13 @@
 import datetime
 import json
 import time
-from local_logging import logger
+from .local_logging import logger
 
 import requests
 
-import config_loading
-from script_runner import script_runner
+from . import config_loading
+
+from .script_runner import script_runner
 
 
 class sunrise:

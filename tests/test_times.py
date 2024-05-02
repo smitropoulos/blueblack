@@ -1,5 +1,5 @@
-from ..src.sunrise_sunset import sunrise
+from blueblack import sunrise_sunset
 
-sun = sunrise()
+sun = sunrise_sunset.sunrise()
 
 assert True

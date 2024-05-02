@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from pathlib import Path
 import xdg_base_dirs
-from local_logging import logger
+from .local_logging import logger
 import yaml
 
 
