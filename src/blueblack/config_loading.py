@@ -1,29 +1,50 @@
+"""[TODO:description]
+
+[TODO:description]
+"""
+
 from abc import abstractmethod
 from pathlib import Path
+
 import xdg_base_dirs
-from .local_logging import logger
 import yaml
 
+from .local_logging import logger
 
-class config_loader:
+
+class ConfigLoader:
+    """[TODO:description]"""
+
     @abstractmethod
     def load_config(self):
-        pass
+        """[TODO:description]"""
 
     @abstractmethod
     def get_lat(self) -> str:
-        pass
+        """[TODO:description]
+
+        Returns:
+            [TODO:return]
+        """
 
     @abstractmethod
     def get_lng(self) -> str:
-        pass
+        """[TODO:description]
+
+        Returns:
+            [TODO:return]
+        """
 
     @abstractmethod
     def get_update_days(self) -> int:
-        pass
+        """[TODO:description]
+
+        Returns:
+            [TODO:return]
+        """
 
 
-class yaml_config_loader(config_loader):
+class YamlConfigLoader(ConfigLoader):
     """Read yaml config file named config.yaml
 
     Attributes:
@@ -31,10 +52,14 @@ class yaml_config_loader(config_loader):
     """
 
     filename = "config.yaml"
-    default_filepath = xdg_base_dirs.xdg_config_home().__str__() + "/sunrise"
+    default_filepath = str(xdg_base_dirs.xdg_config_home()) + "/sunrise"
 
     def __init__(self, config_path: str = default_filepath) -> None:
         super().__init__()
+
+        self.lat: str
+        self.lng: str
+        self.update_days: int
 
         config_loc = Path(config_path)
 
@@ -54,7 +79,7 @@ class yaml_config_loader(config_loader):
             )
 
     def load_config(self):
-        with open(self.config_filepath, "r") as file:
+        with open(self.config_filepath, "r", encoding="ASCII") as file:
             configuration = yaml.safe_load(file)
         logger.info(configuration)
         super().load_config()
