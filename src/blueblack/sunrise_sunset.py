@@ -5,8 +5,8 @@
 
 import datetime
 import json
-import time
 import sys
+import time
 
 import requests
 
@@ -16,23 +16,7 @@ from .script_runner import ScriptRunner
 
 
 class Sunrise:
-    """[TODO:description]
-
-    Attributes:
-        configuration: [TODO:attribute]
-        lat: [TODO:attribute]
-        lng: [TODO:attribute]
-        update_days: [TODO:attribute]
-        sunrise_delta: [TODO:attribute]
-        sunset_delta: [TODO:attribute]
-    """
-
     def load_config(self, conf_loader: config_loading.ConfigLoader):
-        """[TODO:description]
-
-        Args:
-            conf_loader: [TODO:description]
-        """
         self.configuration = conf_loader.load_config()
         self.lat = conf_loader.get_lat()
         self.lng = conf_loader.get_lng()
@@ -49,8 +33,7 @@ class Sunrise:
             [TODO:return]
         """
         global last_updated
-        # curl -L https://api.sunrise-sunset.org/json\
-        # ?lat\=38.06404\&lng\=23.79253\&tzid\=Europe/Athens\&formatted\=0 | jq '.results.sunset'
+        # curl -L https://api.sunrise-sunset.org/json\ ?lat\=38.06404\&lng\=23.79253\&tzid\=Europe/Athens\&formatted\=0 | jq '.results.sunset'
         endpoint = "https://api.sunrise-sunset.org/json"
         payload = {
             "lat": self.lat,

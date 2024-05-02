@@ -79,7 +79,7 @@ class YamlConfigLoader(ConfigLoader):
             )
 
     def load_config(self):
-        with open(self.config_filepath, "r", encoding="ASCII") as file:
+        with open(self.config_filepath, "r") as file:
             configuration = yaml.safe_load(file)
         logger.info(configuration)
         super().load_config()
@@ -96,3 +96,7 @@ class YamlConfigLoader(ConfigLoader):
 
     def get_update_days(self) -> int:
         return self.update_days
+
+class I(object):
+    pass
+
