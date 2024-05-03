@@ -12,14 +12,9 @@ class SunTimesFetcher:
     """docstring for SunTimesFetcher."""
 
     @abstractmethod
-    def fetch_sun_times(self, parameter_list) -> tuple[datetime, datetime, datetime]:
+    def fetch_sun_times(self, parameter_list) -> dict[str, datetime]:
         """Get the sunsrise and sunset times for your location
-        Args:
-            parameter_list ([TODO:parameter]): [TODO:description]
-
-        Returns: Return sunrise, sunset, and time updated
-
-        """
+        Returns: Return sunrise, sunset, and time updated"""
         pass
 
 
@@ -41,7 +36,7 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
         else:
             logger.critical("Could not automatically get timezone name")
 
-    def run_request(self, endpoint: str = "") -> tuple[datetime, datetime]:
+    def run_request(self, endpoint: str = "") -> dict[str, datetime]:
         """[TODO:description]
 
         Raises:
@@ -80,18 +75,14 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
 
         results = resp_body["results"]
 
+        to_ret = {}
         # Current endpoint will return iso8601 formatted datetimes
-        sunrise_time_iso8601 = results["sunrise"]
-        sunset_time_iso8601 = results["sunset"]
+        to_ret["sunrise"] = results["sunrise"]
+        to_ret["sunset"] = results["sunset"]
 
-        return (
-            datetime.fromisoformat(sunrise_time_iso8601),
-            datetime.fromisoformat(sunset_time_iso8601),
-        )
+        return to_ret
 
-    def fetch_sun_times(
-        self, parameter_list=None
-    ) -> tuple[datetime, datetime, datetime]:
+    def fetch_sun_times(self, parameter_list=None) -> dict[str, datetime]:
         toret = self.run_request()
-        toret = toret + (datetime.now(),)
+        toret["now"] = datetime.now()
         return toret
