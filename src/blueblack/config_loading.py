@@ -96,7 +96,3 @@ class YamlConfigLoader(ConfigLoader):
 
     def get_update_days(self) -> int:
         return self.update_days
-
-class I(object):
-    pass
-
