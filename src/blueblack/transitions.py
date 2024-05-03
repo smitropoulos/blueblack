@@ -66,7 +66,7 @@ class Transition:
 
         return State.LIGHT
 
-    def transition(self, st: State, runner: ScriptRunner):
+    def do_transition(self, st: State, runner: ScriptRunner):
         if st == State.LIGHT:
             runner.run_scripts_in_dir("light")
         else:
