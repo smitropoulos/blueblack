@@ -1,7 +1,4 @@
-"""[TODO:description]
-
-[TODO:description]
-"""
+"""Run scripts inside a dir"""
 
 import os
 import subprocess
@@ -12,10 +9,10 @@ from .local_logging import logger
 
 
 class ScriptRunner:
-    """[TODO:description]
+    """Run scripts inside a dir
 
     Attributes:
-        default_filepath: [TODO:attribute]
+        default_filepath: Default directory to run scripts in
     """
 
     default_filepath = str(xdg_base_dirs.xdg_config_home()) + "/sunrise"
@@ -27,24 +24,21 @@ class ScriptRunner:
             self.scripts_path = self.default_filepath
 
     def get_dir(self, transition_to: str):
-        """[TODO:description]
+        """Return the default dir filepath according to next transition
 
         Args:
-            transition_to: [TODO:description]
+            transition_to: next transition
 
         Returns:
-            [TODO:return]
+            Retrurn the complete path
         """
         return self.scripts_path + "/" + transition_to + "_mode"
 
     def run_scripts_in_dir(self, transition_to: str):
-        """[TODO:description]
+        """Run scripts inside the default dir
 
         Args:
-            transition_to: [TODO:description]
-
-        Raises:
-            KeyError: [TODO:throw]
+            transition_to: next transition ["light"|"dark"]
         """
         if transition_to not in ["light", "dark"]:
             raise KeyError(f"No can do transition to {transition_to}")

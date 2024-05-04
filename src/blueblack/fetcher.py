@@ -22,11 +22,13 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
     """Get sunrise/sunset times from an API call
     to https://api.sunrise-sunset.org/json"""
 
-    def __init__(self, lat: str, lng: str) -> None:
+    def __init__(
+        self, lat: str, lng: str, endpoint: str = "https://api.sunrise-sunset.org/json"
+    ) -> None:
         super().__init__()
         self.lat = lat
         self.lng = lng
-        self.endpoint = "https://api.sunrise-sunset.org/json"
+        self.endpoint = endpoint
 
         tzname = get_timezone_name()
 
@@ -37,14 +39,17 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
             logger.critical("Could not automatically get timezone name")
 
     def run_request(self, endpoint: str = "") -> dict[str, datetime]:
-        """[TODO:description]
+        """Run a get request to the endpoint
 
         Raises:
-            RuntimeError: [TODO:throw]
-            RuntimeError: [TODO:throw]
+            RuntimeError: for not 200 responses
+            RuntimeError: for not OK responses from the API
 
         Returns:
-            [TODO:return]
+            Returns a dict with keys:
+            ["sunrise"]
+            ["sunset"]
+            They include datetimes for sunrise and sunset datetimes
         """
 
         if endpoint != "":

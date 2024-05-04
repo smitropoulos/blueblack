@@ -1,7 +1,4 @@
-"""[TODO:description]
-
-[TODO:description]
-"""
+"""Load configuration"""
 
 from abc import abstractmethod
 from pathlib import Path
@@ -13,35 +10,23 @@ from .local_logging import logger
 
 
 class ConfigLoader:
-    """[TODO:description]"""
+    """Load configuration file"""
 
     @abstractmethod
     def load_config(self):
-        """[TODO:description]"""
+        """Load configuration"""
 
     @abstractmethod
     def get_lat(self) -> str:
-        """[TODO:description]
-
-        Returns:
-            [TODO:return]
-        """
+        pass
 
     @abstractmethod
     def get_lng(self) -> str:
-        """[TODO:description]
-
-        Returns:
-            [TODO:return]
-        """
+        pass
 
     @abstractmethod
     def get_update_days(self) -> int:
-        """[TODO:description]
-
-        Returns:
-            [TODO:return]
-        """
+        pass
 
 
 class YamlConfigLoader(ConfigLoader):
