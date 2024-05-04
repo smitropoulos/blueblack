@@ -1,11 +1,15 @@
 """Run scripts inside a dir"""
 
 import os
+from pathlib import Path
 import subprocess
 
 import xdg_base_dirs
 
+from blueblack import project
+
 from .local_logging import logger
+from .states import State
 
 
 class ScriptRunner:
@@ -15,15 +19,12 @@ class ScriptRunner:
         default_filepath: Default directory to run scripts in
     """
 
-    default_filepath = str(xdg_base_dirs.xdg_config_home()) + "/sunrise"
+    default_filepath = xdg_base_dirs.xdg_config_home() / project.PROJECT_NAME
 
-    def __init__(self, scripts_path: str = "") -> None:
-        if not (scripts_path is None or scripts_path) == "":
-            self.scripts_path = scripts_path
-        else:
-            self.scripts_path = self.default_filepath
+    def __init__(self, scripts_path: Path) -> None:
+        self.scripts_path = scripts_path
 
-    def get_dir(self, transition_to: str):
+    def get_dir(self, to_mode: State):
         """Return the default dir filepath according to next transition
 
         Args:
@@ -32,16 +33,17 @@ class ScriptRunner:
         Returns:
             Retrurn the complete path
         """
-        return self.scripts_path + "/" + transition_to + "_mode"
+        if to_mode == State.DARK:
+            return self.scripts_path / Path("dark_mode")
+        elif to_mode == State.LIGHT:
+            return self.scripts_path / Path("light_mode")
 
-    def run_scripts_in_dir(self, transition_to: str):
+    def run_scripts_in_dir(self, transition_to: State):
         """Run scripts inside the default dir
 
         Args:
             transition_to: next transition ["light"|"dark"]
         """
-        if transition_to not in ["light", "dark"]:
-            raise KeyError(f"No can do transition to {transition_to}")
         directory = self.get_dir(transition_to)
         logger.info(f"Running scripts in {directory}")
         for filename in os.listdir(directory):
@@ -58,8 +60,3 @@ class ScriptRunner:
                         )
                 else:
                     logger.error(f"File {f} is not executable")
-
-
-if __name__ == "__main__":
-    sr = ScriptRunner()
-    sr.run_scripts_in_dir("dark")

@@ -12,22 +12,16 @@ from .project import PROJECT_NAME
 
 class ConfigLoader:
     """Load configuration file"""
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.lat: str
+        self.lng: str
+        self.update_days: int
 
     @abstractmethod
     def load_config(self):
         """Load configuration"""
-
-    @abstractmethod
-    def get_lat(self) -> str:
-        pass
-
-    @abstractmethod
-    def get_lng(self) -> str:
-        pass
-
-    @abstractmethod
-    def get_update_days(self) -> int:
-        pass
 
 
 class YamlConfigLoader(ConfigLoader):
@@ -42,10 +36,6 @@ class YamlConfigLoader(ConfigLoader):
 
     def __init__(self, config_path: Path = default_filepath) -> None:
         super().__init__()
-
-        self.lat: str
-        self.lng: str
-        self.update_days: int
 
         if not config_path.exists():
             raise RuntimeError(f"{config_path} is not a valid path. Exiting")
@@ -71,12 +61,3 @@ class YamlConfigLoader(ConfigLoader):
         self.lng = configuration["lng"]
         self.update_days = configuration["update_days"]
         return configuration
-
-    def get_lat(self) -> str:
-        return self.lat
-
-    def get_lng(self) -> str:
-        return self.lng
-
-    def get_update_days(self) -> int:
-        return self.update_days

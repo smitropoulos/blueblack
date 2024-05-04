@@ -22,9 +22,9 @@ def get_transition():
     return trans
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def project_file(tmp_path_factory):
-    my_tmpdir = tmp_path_factory.mktemp("data")
+    my_tmpdir = tmp_path_factory.mktemp("cache")
     my_tmpdir.chmod(0o777)
     yield my_tmpdir
     shutil. rmtree(my_tmpdir)
