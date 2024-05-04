@@ -6,6 +6,7 @@ import requests
 from .local_logging import logger
 from .datetime_utils import get_timezone_name
 from .sun_times import SunTimes
+from jsonschema import validate
 
 
 class SunTimesFetcher:
@@ -23,6 +24,25 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
     to default https://api.sunrise-sunset.org/json"""
 
     default_api_uri = "https://api.sunrise-sunset.org/json"
+    expected_schema = {
+        "type": "object",
+        "properties": {
+            "status": {"type": "string"},
+            "results": {
+                "type": "object",
+                "properties": {
+                    "sunrise": {"type": "string"},
+                    "sunset": {"type": "string"},
+                },
+                "additionalProperties": True,
+                "required": ["sunrise", "sunset"],
+            }
+        },
+        "required": ["status","results"],
+        "additionalProperties": False
+    }
+
+
 
     def __init__(self) -> None:
         super().__init__()
@@ -34,6 +54,9 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
         else:
             logger.critical("Could not automatically get timezone name")
 
+
+    def validate_response(self, response):
+        return validate(instance = response, schema=self.expected_schema)
     def setup(self, lat: str, lng: str, endpoint: str = default_api_uri):
         self.endpoint = endpoint
         self.lat = lat

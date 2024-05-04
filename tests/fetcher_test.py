@@ -1,3 +1,4 @@
+from jsonschema.exceptions import ValidationError
 import pytest
 import requests_mock
 from blueblack.fetcher import SunTimesFetcherFromApi
@@ -105,3 +106,44 @@ def test_get_lat_lng_failing(
 
     with pytest.raises(RuntimeError):
         fet._run_request()
+
+
+@pytest.mark.parametrize(
+    "fake_resp, expected_to_throw",
+    [
+        (
+            {
+                "results": {"sunset": "2015-05-21T05:05:35+00:00", "tzid": "UTC"},
+                "status": "OK",
+            },
+            True,
+        ),
+        (
+            {
+                "results": {},
+                "status": "OK",
+            },
+            True,
+        ),
+        (
+            {
+                "results": {"sunset": "", "sunrise": "", "tzid": "UTC"},
+            },
+            True,
+        ),
+        (
+            {
+                "results": {"sunset": "", "sunrise": "", "tzid": "UTC"},
+                "status": "OK",
+            },
+            False,
+        ),
+    ],
+)
+def test_validate_response(get_fetcher, fake_resp, expected_to_throw):
+    fet = get_fetcher
+    if expected_to_throw:
+        with pytest.raises(ValidationError):
+            fet.validate_response(fake_resp)
+    else:
+        fet.validate_response(fake_resp)

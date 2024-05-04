@@ -1,56 +1,58 @@
 from datetime import time
+import pytest
 
-from blueblack import transitions
+from blueblack.transitions import Transition
 from blueblack.states import State
 
-sunrise_time = time(hour=7)
-sunset_time = time(hour=20)
 
-test_data = [
-    {
-        "now": time(hour=6),
-        "sunrise": sunrise_time,
-        "sunset": sunset_time,
-        "expected": State.LIGHT,
-    },
-    {
-        "now": time(hour=16),
-        "sunrise": sunrise_time,
-        "sunset": sunset_time,
-        "expected": State.DARK,
-    },
-    {
-        "now": time(hour=0, minute=10),
-        "sunrise": sunrise_time,
-        "sunset": sunset_time,
-        "expected": State.LIGHT,
-    },
-    {
-        "now": time(hour=23, minute=59),
-        "sunrise": sunrise_time,
-        "sunset": sunset_time,
-        "expected": State.LIGHT,
-    },
-    {
-        "now": time(hour=7),
-        "sunrise": sunrise_time,
-        "sunset": sunset_time,
-        "expected": State.DARK,
-    },
-]
-
-trans = transitions.Transition()
+@pytest.fixture
+def get_sunrise():
+    return time(hour=7)
 
 
-def test_transition_setup(tmp_path):
+@pytest.fixture
+def get_sunset():
+    return time(hour=19)
+
+
+@pytest.fixture
+def get_transition():
+    trans = Transition()
+    return trans
+
+
+def test_transition_setup(get_transition, tmp_path):
     """Transition cache file tests"""
+    trans = get_transition
     trans.setup(tmp_path)
 
 
-def test_calc_next_transition():
-    for entry in test_data:
-        print(entry)
-        assert (
-            trans.calc_next_transition(entry["sunrise"], entry["sunset"], entry["now"])
-            == entry["expected"]
-        )
+@pytest.mark.parametrize(
+    "now, expected",
+    [
+        (
+            time(hour=7),
+            State.DARK,
+        ),
+        (
+            time(hour=6),
+            State.LIGHT,
+        ),
+        (
+            time(hour=16),
+            State.DARK,
+        ),
+        (
+            time(hour=0, minute=10),
+            State.LIGHT,
+        ),
+        (
+            time(hour=23, minute=59),
+            State.LIGHT,
+        ),
+    ],
+)
+def test_calc_next_transition(get_transition, now, get_sunrise, get_sunset, expected):
+    trans = get_transition
+    exp = trans.calc_next_transition(get_sunrise, get_sunset, now)
+    assert exp == expected
