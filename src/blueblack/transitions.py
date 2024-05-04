@@ -8,9 +8,10 @@ import xdg_base_dirs
 from .local_logging import logger
 from .script_runner import ScriptRunner
 from .states import State
+from .project import PROJECT_NAME
 
 Default_Cache_dir = xdg_base_dirs.xdg_cache_home()
-Default_Cache_subdir = "blueblack"
+Default_Cache_subdir = PROJECT_NAME
 Default_cache_filename = "cached_state"
 
 

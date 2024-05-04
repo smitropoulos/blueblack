@@ -1,8 +1,8 @@
 class SunTimes:
-    def __init__(self, lat: str, lng: str) -> None:
-        self.lat = lat
-        self.lng = lng
+    def __init__(self, sunrise_time: str, sunset_time: str) -> None:
+        self.sunrise_time = sunrise_time
+        self.sunset_time = sunset_time
 
     @classmethod
     def from_json(cls, json_data: dict):
-        return cls(lat=json_data["lat"], lng=json_data["lng"])
+        return cls(sunrise_time=json_data["sunrise"], sunset_time=json_data["sunset"])

@@ -7,6 +7,7 @@ import xdg_base_dirs
 import yaml
 
 from .local_logging import logger
+from .project import PROJECT_NAME
 
 
 class ConfigLoader:
@@ -37,24 +38,22 @@ class YamlConfigLoader(ConfigLoader):
     """
 
     filename = "config.yaml"
-    default_filepath = str(xdg_base_dirs.xdg_config_home()) + "/sunrise"
+    default_filepath = xdg_base_dirs.xdg_config_home() / PROJECT_NAME
 
-    def __init__(self, config_path: str = default_filepath) -> None:
+    def __init__(self, config_path: Path = default_filepath) -> None:
         super().__init__()
 
         self.lat: str
         self.lng: str
         self.update_days: int
 
-        config_loc = Path(config_path)
-
-        if not config_loc.exists():
+        if not config_path.exists():
             raise RuntimeError(f"{config_path} is not a valid path. Exiting")
 
-        if config_loc.is_dir():
-            self.config_filepath = config_loc / self.filename
+        if config_path.is_dir():
+            self.config_filepath = config_path / self.filename
         else:
-            self.config_filepath = config_loc
+            self.config_filepath = config_path
 
         logger.info(f"Config file is {self.config_filepath}")
 
