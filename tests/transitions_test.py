@@ -1,8 +1,8 @@
 from datetime import time
-import pytest
 
-from blueblack.transitions import Transition
+import pytest
 from blueblack.states import State
+from blueblack.transitions import Transition
 
 
 @pytest.fixture
@@ -21,10 +21,16 @@ def get_transition():
     return trans
 
 
-def test_transition_setup(get_transition, tmp_path):
+@pytest.fixture(scope="session")
+def project_file(tmp_path_factory):
+    my_tmpdir = tmp_path_factory.mktemp("data")
+    yield my_tmpdir
+
+
+def test_transition_setup(get_transition, project_file):
     """Transition cache file tests"""
     trans = get_transition
-    trans.setup(tmp_path)
+    trans.setup(project_file)
 
 
 @pytest.mark.parametrize(

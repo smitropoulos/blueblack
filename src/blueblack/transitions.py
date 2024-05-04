@@ -29,8 +29,8 @@ class Transition:
         logger.info("Trying to read state from the file")
 
         # Create parent dirs and file
-        self.cache_filepath.parent.mkdir(parents=True, exist_ok=True)
-        self.cache_filepath.touch()
+        self.cache_filepath.parent.mkdir(mode=0o755,parents=True, exist_ok=True)
+        self.cache_filepath.touch(mode=0o644)
         contents = self.cache_filepath.read_text()
 
         if contents == "light":

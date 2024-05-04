@@ -1,8 +1,8 @@
-from jsonschema.exceptions import ValidationError
 import pytest
 import requests_mock
-from blueblack.fetcher import SunTimesFetcherFromApi
 from blueblack.datetime_utils import get_timezone_name
+from blueblack.fetcher import SunTimesFetcherFromApi
+from jsonschema.exceptions import ValidationError
 
 
 @pytest.fixture

@@ -23,6 +23,7 @@ jsonschema = "^4.22.0"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
 requests-mock = "^1.12.1"
+pytest-cov = "^5.0.0"
 
 [build-system]
 requires = ["poetry-core"]
