@@ -4,6 +4,7 @@ import pytest
 from blueblack.states import State
 from blueblack.transitions import Transition
 
+import shutil
 
 @pytest.fixture
 def get_sunrise():
@@ -24,7 +25,9 @@ def get_transition():
 @pytest.fixture(scope="session")
 def project_file(tmp_path_factory):
     my_tmpdir = tmp_path_factory.mktemp("data")
+    my_tmpdir.chmod(0o777)
     yield my_tmpdir
+    shutil. rmtree(my_tmpdir)
 
 
 def test_transition_setup(get_transition, project_file):
