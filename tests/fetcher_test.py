@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 import requests_mock
 from blueblack.datetime_utils import get_timezone_name
@@ -60,8 +61,14 @@ def test_get_lat_lng_working(
 
     response = fet._run_request()
 
-    assert response.sunrise_time == fake_response_data["results"]["sunrise"]
-    assert response.sunset_time == fake_response_data["results"]["sunset"]
+    assert (
+        response.sunrise_time
+        == datetime.fromisoformat(fake_response_data["results"]["sunrise"]).time()
+    )
+    assert (
+        response.sunset_time
+        == datetime.fromisoformat(fake_response_data["results"]["sunset"]).time()
+    )
 
 
 @pytest.mark.parametrize(

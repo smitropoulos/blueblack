@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from abc import abstractmethod
 
@@ -36,13 +37,11 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
                 },
                 "additionalProperties": True,
                 "required": ["sunrise", "sunset"],
-            }
+            },
         },
-        "required": ["status","results"],
-        "additionalProperties": False
+        "required": ["status", "results"],
+        "additionalProperties": False,
     }
-
-
 
     def __init__(self) -> None:
         super().__init__()
@@ -54,9 +53,9 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
         else:
             logger.critical("Could not automatically get timezone name")
 
-
     def validate_response(self, response):
-        return validate(instance = response, schema=self.expected_schema)
+        return validate(instance=response, schema=self.expected_schema)
+
     def setup(self, lat: str, lng: str, endpoint: str = default_api_uri):
         self.endpoint = endpoint
         self.lat = lat
@@ -101,7 +100,12 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
 
         results = resp_body["results"]
 
-        return SunTimes(results["sunrise"], results["sunset"])
+        sunr = results["sunrise"]
+        suns = results["sunset"]
+
+        return SunTimes(
+            datetime.fromisoformat(sunr).time(), datetime.fromisoformat(suns).time()
+        )
 
     def _run_request(self) -> SunTimes:
         return self.run_request(self.lat, self.lng)

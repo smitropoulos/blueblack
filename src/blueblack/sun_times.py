@@ -1,5 +1,8 @@
+from datetime import time
+
+
 class SunTimes:
-    def __init__(self, sunrise_time: str, sunset_time: str) -> None:
+    def __init__(self, sunrise_time: time, sunset_time: time) -> None:
         self.sunrise_time = sunrise_time
         self.sunset_time = sunset_time
 

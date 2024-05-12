@@ -1,4 +1,5 @@
 from blueblack import sun_times
+from datetime import time
 import pytest
 
 
@@ -6,8 +7,8 @@ import pytest
     "sunrise_time,sunset_time",
     [
         (
-            "10",
-            "100",
+            time(10),
+            time(18),
         ),
     ],
 )

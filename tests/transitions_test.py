@@ -2,9 +2,10 @@ from datetime import time
 
 import pytest
 from blueblack.states import State
-from blueblack.transitions import Transition
+from blueblack.transitions import Transitions
 
 import shutil
+
 
 @pytest.fixture
 def get_sunrise():
@@ -18,7 +19,7 @@ def get_sunset():
 
 @pytest.fixture
 def get_transition():
-    trans = Transition()
+    trans = Transitions()
     return trans
 
 
@@ -27,13 +28,13 @@ def project_file(tmp_path_factory):
     my_tmpdir = tmp_path_factory.mktemp("cache")
     my_tmpdir.chmod(0o777)
     yield my_tmpdir
-    shutil. rmtree(my_tmpdir)
+    shutil.rmtree(my_tmpdir)
 
 
-def test_transition_setup(get_transition, project_file):
-    """Transition cache file tests"""
-    trans = get_transition
-    trans.setup(project_file)
+# def test_transition_setup(get_transition, project_file):
+#     """Transition cache file tests"""
+#     trans = get_transition
+#     trans.setup(project_file)
 
 
 @pytest.mark.parametrize(

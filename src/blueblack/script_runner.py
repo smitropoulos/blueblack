@@ -45,6 +45,9 @@ class ScriptRunner:
             transition_to: next transition ["light"|"dark"]
         """
         directory = self.get_dir(transition_to)
+        if not directory.exists() or not directory.is_dir():
+            logger.error(f"{directory} does not exist. Will not run anything")
+            return
         logger.info(f"Running scripts in {directory}")
         for filename in os.listdir(directory):
             f = os.path.join(directory, filename)
@@ -59,4 +62,4 @@ class ScriptRunner:
                             f"File {f} returned error code {output.returncode}"
                         )
                 else:
-                    logger.error(f"File {f} is not executable")
+                    logger.warn(f"File {f} is not executable")

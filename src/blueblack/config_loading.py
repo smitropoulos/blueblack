@@ -12,6 +12,7 @@ from .project import PROJECT_NAME
 
 class ConfigLoader:
     """Load configuration file"""
+
     def __init__(self) -> None:
         super().__init__()
 
