@@ -62,7 +62,7 @@ def project_file(tmp_path_factory):
         ),
     ],
 )
-def test_calc_next_transition(get_transition, now, get_sunrise, get_sunset, expected):
+def test_calc_next(get_transition, now, get_sunrise, get_sunset, expected):
     trans = get_transition
-    exp = trans.calc_next_transition(get_sunrise, get_sunset, now)
+    exp = trans.calc_next(get_sunrise, get_sunset, now)
     assert exp == expected

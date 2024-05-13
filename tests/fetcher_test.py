@@ -2,7 +2,7 @@ from datetime import datetime
 import pytest
 import requests_mock
 from blueblack.datetime_utils import get_timezone_name
-from blueblack.fetcher import SunTimesFetcherFromApi
+from blueblack.suntimes_fetcher import SunTimesFetcherFromApi
 from jsonschema.exceptions import ValidationError
 
 

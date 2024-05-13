@@ -1,40 +1,48 @@
 """Main file"""
 
-from datetime import datetime
 import time
+from datetime import datetime
 
-from blueblack import fetcher
+from blueblack import suntimes_fetcher
+from blueblack.states import State
 from blueblack.transitions import Transitions
 
-from .states import State
+from .config_loading import YamlConfigLoader
 from .local_logging import logger
 from .script_runner import ScriptRunner
-from .config_loading import YamlConfigLoader
 
 if __name__ == "__main__":
-    cl = YamlConfigLoader()
-    cl.load_config()
+    yaml_config_loader = YamlConfigLoader()
+    yaml_config_loader.load_config()
 
-    fetch = fetcher.SunTimesFetcherFromApi()
-    fetch.setup(cl.lat, cl.lng)
-    suntimes = fetch.fetch_sun_times()
+    suntimes_fetcher = suntimes_fetcher.SunTimesFetcherFromApi()
+    suntimes_fetcher.setup(yaml_config_loader.lat, yaml_config_loader.lng)
+    suntimes = suntimes_fetcher.fetch_sun_times()
 
-    tr = Transitions()
-    tr.setup(suntimes.sunrise_time, suntimes.sunset_time)
+    transition = Transitions()
+    transition.setup(suntimes.sunrise_time, suntimes.sunset_time)
 
-    time_change_limits = {
-        "dayLowerLimit": 5,
-        "dayUpperLimit": 9,
-        "nightLowerLimit": 16,
-        "nightUpperLimit": 22,
-    }
+    script_runner = ScriptRunner(ScriptRunner.default_filepath)
 
-    sr = ScriptRunner(ScriptRunner.default_filepath)
+    last_transition = None
+
     while True:
         now_time = datetime.now().time()
         # check if it is time to update the sunrise, sunset times
 
-        tr.do_transition(tr.cached_state, sr)
-        # Sleep for 10 mins
+        next_transition = transition.calc_next(
+            suntimes.sunset_time, suntimes.sunset_time
+        )
+        if last_transition != next_transition:
+            if next_transition == State.DARK:
+                if now_time > suntimes.sunset_time:
+                    transition.execute(next_transition, script_runner)
+                    last_transition = State.DARK
+
+            if next_transition == State.LIGHT:
+                if now_time > suntimes.sunrise_time:
+                    transition.execute(next_transition, script_runner)
+                    last_transition = State.LIGHT
+
         logger.debug("Sleeping now...")
-        time.sleep(10 * 60)
+        time.sleep(5)
