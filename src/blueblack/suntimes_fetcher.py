@@ -10,12 +10,12 @@ from jsonschema import validate
 
 
 class SunTimesFetcher:
-    """Fetches sunrise and sunset times in LOCAL timezone adjusted for DST"""
+    """Fetches sunrise and sunset times in UTC"""
 
     @abstractmethod
     def fetch_sun_times(self) -> SunTimes:
-        """Get the sunsrise and sunset times for your location
-        Returns: Return sunrise, sunset adjusted for DST"""
+        """Get the sunsrise and sunset times for your location in UTC
+        Returns: Return sunrise"""
         pass
 
 

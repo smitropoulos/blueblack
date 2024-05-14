@@ -1,7 +1,6 @@
 from datetime import datetime
 import pytest
 import requests_mock
-from blueblack.datetime_utils import get_timezone_name
 from blueblack.suntimes_fetcher import SunTimesFetcherFromApi
 from jsonschema.exceptions import ValidationError
 
@@ -46,7 +45,6 @@ def get_fetcher():
 def test_get_lat_lng_working(
     lat, lng, fake_response_data, mock_api, get_fetcher: SunTimesFetcherFromApi
 ):
-    # Get local timezone
     base_url = "https://api.example.com/json"
 
     mock_api.get(
@@ -62,11 +60,11 @@ def test_get_lat_lng_working(
 
     assert (
         response.sunrise_time
-        == datetime.fromisoformat(fake_response_data["results"]["sunrise"]).time()
+        == datetime.fromisoformat(fake_response_data["results"]["sunrise"]).timetz()
     )
     assert (
         response.sunset_time
-        == datetime.fromisoformat(fake_response_data["results"]["sunset"]).time()
+        == datetime.fromisoformat(fake_response_data["results"]["sunset"]).timetz()
     )
 
 
@@ -96,12 +94,10 @@ def test_get_lat_lng_failing(
 ):
     # Register the mock API call with the correct URL and response data
 
-    # Get local timezone
-    tz_info = get_timezone_name()
     base_url = "https://api.example.com/json"
 
     mock_api.get(
-        f"{base_url}?lat={lat}&lng={lng}&formatted=0&tzid={tz_info}",
+        f"{base_url}?lat={lat}&lng={lng}&formatted=0",
         json=fake_response_data,
         status_code=fake_rc,
     )
