@@ -47,11 +47,10 @@ def test_get_lat_lng_working(
     lat, lng, fake_response_data, mock_api, get_fetcher: SunTimesFetcherFromApi
 ):
     # Get local timezone
-    tz_info = get_timezone_name()
     base_url = "https://api.example.com/json"
 
     mock_api.get(
-        f"{base_url}?lat={lat}&lng={lng}&formatted=0&tzid={tz_info}",
+        f"{base_url}?lat={lat}&lng={lng}&formatted=0",
         json=fake_response_data,
     )
 

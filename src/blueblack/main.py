@@ -1,7 +1,7 @@
 """Main file"""
 
 import time
-from datetime import datetime
+from datetime import UTC, datetime
 
 from blueblack import suntimes_fetcher
 from blueblack.states import State
@@ -20,20 +20,22 @@ if __name__ == "__main__":
     suntimes = suntimes_fetcher.fetch_sun_times()
 
     transition = Transitions()
-    transition.setup(suntimes.sunrise_time, suntimes.sunset_time)
 
     script_runner = ScriptRunner(ScriptRunner.default_filepath)
 
-    last_transition = None
+    seconds_in_day = 86400
+    sleep_interval = 5
+    seconds_rem = seconds_in_day * yaml_config_loader.update_days
 
     while True:
-        now_time = datetime.now().time()
+
+        now_time = datetime.now(UTC).timetz()
         # check if it is time to update the sunrise, sunset times
 
         next_transition = transition.calc_next(
-            suntimes.sunset_time, suntimes.sunset_time
+            suntimes.sunrise_time, suntimes.sunset_time, now_time
         )
-        if last_transition != next_transition:
+        if transition.last_transition != next_transition:
             if next_transition == State.DARK:
                 if now_time > suntimes.sunset_time:
                     transition.execute(next_transition, script_runner)
@@ -44,5 +46,9 @@ if __name__ == "__main__":
                     transition.execute(next_transition, script_runner)
                     last_transition = State.LIGHT
 
+        if seconds_rem <= 0:
+            suntimes = suntimes_fetcher.fetch_sun_times()
+            seconds_rem = seconds_in_day
+
         logger.debug("Sleeping now...")
-        time.sleep(5)
+        time.sleep(sleep_interval)
