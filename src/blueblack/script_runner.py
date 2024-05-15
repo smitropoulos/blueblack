@@ -5,6 +5,7 @@ from pathlib import Path
 import subprocess
 
 import xdg_base_dirs
+import xdg_base_dirs
 
 from blueblack import project
 
@@ -17,6 +18,7 @@ class ScriptRunner:
 
     Attributes:
         default_filepath: Default directory to run scripts in
+        defaults to ~/.config/blueblack/{dark,light}_mode if xdg_config_home is defined
     """
 
     default_filepath = xdg_base_dirs.xdg_config_home() / project.PROJECT_NAME

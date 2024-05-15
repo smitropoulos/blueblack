@@ -47,9 +47,8 @@ class Transitions:
         return State.LIGHT
 
     def execute(self, st: State, runner: ScriptRunner):
-        if st == State.LIGHT:
-            runner.run_scripts_in_dir(State.LIGHT)
-            self.last_transition = State.LIGHT
-        else:
-            runner.run_scripts_in_dir(State.DARK)
-            self.last_transition = State.DARK
+        runner.run_scripts_in_dir(st)
+        self.update_last_transition(st)
+
+    def update_last_transition(self, st: State):
+        self.last_transition = st
