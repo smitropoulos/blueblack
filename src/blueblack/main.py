@@ -4,12 +4,11 @@ import time
 from datetime import UTC, datetime
 
 from blueblack import suntimes_fetcher
+from blueblack.config_loading import YamlConfigLoader
+from blueblack.local_logging import logger
+from blueblack.script_runner import ScriptRunner
 from blueblack.states import State
 from blueblack.transitions import Transitions
-
-from .config_loading import YamlConfigLoader
-from .local_logging import logger
-from .script_runner import ScriptRunner
 
 if __name__ == "__main__":
     yaml_config_loader = YamlConfigLoader()
