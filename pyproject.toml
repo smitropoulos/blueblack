@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "blueblack"
-version = "0.1.0"
+version = "1.0.0"
 description = "Automatic light/dark mode transitions based on location"
 authors = ["Stefanos Mitropoulos"]
 readme = "README.md"
