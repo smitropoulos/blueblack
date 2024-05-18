@@ -16,4 +16,4 @@ and change the update_days to something appropriate (e.g. 10 days).
 When it's slightly past sunrise or sunset time (around 5 seconds), executable scripts inside `XDG_CONFIG_HOME/blueblack/{dark,light}_mode` will run automatically.
 Some examples are provided in [the source code page](https://github.com/smitropoulos/blueblack/tree/main/configs)
 
-Internally, Blueblack will use [the Sunrise-sunset API](https://sunrise-sunset.org/api) which is currently free. Please use this responsibly so we can have free things.
+Internally, Blueblack will use [the Sunrise-sunset API](https://sunrise-sunset.org/api) which is currently free. Please use this responsibly, so we can have free things.
