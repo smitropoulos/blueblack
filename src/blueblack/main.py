@@ -49,10 +49,10 @@ if __name__ == "__main__":
         elif transition.last_transition != next_transition:
             # check if we are past the time for a transition
             if next_transition == State.DARK:
-                if now_time > suntimes.sunset_time or now_time < suntimes.sunrise_time:
+                if suntimes.now_is_outside_sun_times(now_time):
                     transition.execute(State.DARK, script_runner)
             if next_transition == State.LIGHT:
-                if now_time > suntimes.sunrise_time and now_time < suntimes.sunset_time:
+                if suntimes.now_is_between_sun_times(now_time):
                     transition.execute(State.LIGHT, script_runner)
 
         # check if it is time to update the sunrise, sunset times
