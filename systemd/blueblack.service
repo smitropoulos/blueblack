@@ -1,0 +1,11 @@
+[Unit]
+Description=Blueblack automatic light/dark mode switching
+After=network.target
+
+[Service]
+PrivateTmp=true
+PIDFile=/run/blueblack.pid
+ExecStart=python -m blueblack.main
+
+[Install]
+WantedBy=multi-user.target
