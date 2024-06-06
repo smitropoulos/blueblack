@@ -2,9 +2,10 @@
 Description=Blueblack automatic light/dark mode switching
 
 [Service]
-PrivateTmp=true
-PIDFile=/run/blueblack.pid
+Type=simple
 ExecStart=python -m blueblack.main
+Restart=on-failure
+RestartSec=2
 
 [Install]
 WantedBy=default.target
