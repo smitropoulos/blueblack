@@ -1,6 +1,6 @@
 import json
 from abc import abstractmethod
-from datetime import UTC, datetime
+from datetime import datetime
 
 import requests
 from jsonschema import validate

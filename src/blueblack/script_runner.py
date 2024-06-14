@@ -1,10 +1,9 @@
 """Run scripts inside a dir"""
 
 import os
-from pathlib import Path
 import subprocess
+from pathlib import Path
 
-import xdg_base_dirs
 import xdg_base_dirs
 
 from blueblack import project

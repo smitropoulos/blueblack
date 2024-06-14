@@ -30,11 +30,14 @@ class Transitions:
         then the next transition is dark
 
         Args:
+        ----
             sunrise_time: sunrise time
             time_now: the time now
 
         Returns:
+        -------
             The next state calculated
+
         """
         logger.debug(
             f"Getting next transition with now time: {time_now}, sunrise time: {sunrise_time}, sunset time: {sunset_time}"
