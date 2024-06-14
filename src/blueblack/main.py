@@ -1,4 +1,4 @@
-"""Main file"""
+"""Main file."""
 
 import time
 from datetime import UTC, datetime
@@ -30,7 +30,9 @@ if __name__ == "__main__":
         now_time = datetime.now(UTC).timetz()
 
         next_transition = transition.calc_next(
-            suntimes.sunrise_time, suntimes.sunset_time, now_time
+            suntimes.sunrise_time,
+            suntimes.sunset_time,
+            now_time,
         )
 
         # Apply opposite here
@@ -39,7 +41,7 @@ if __name__ == "__main__":
             or transition.last_transition == next_transition
         ):
             logger.debug(
-                f"Skipped a transition or new execution. Will apply opposite of {next_transition}"
+                f"Skipped a transition or new execution. Will apply opposite of {next_transition}",
             )
             if next_transition == State.DARK:
                 transition.execute(State.LIGHT, script_runner)

@@ -1,4 +1,4 @@
-"""Load configuration"""
+"""Load configuration."""
 
 from abc import abstractmethod
 from pathlib import Path
@@ -11,7 +11,7 @@ from .project import PROJECT_NAME
 
 
 class ConfigLoader:
-    """Load configuration file"""
+    """Load configuration file."""
 
     def __init__(self) -> None:
         super().__init__()
@@ -21,15 +21,17 @@ class ConfigLoader:
         self.update_days: int
 
     @abstractmethod
-    def load_config(self):
+    def load_config(self) -> None:
         """Load configuration"""
 
 
 class YamlConfigLoader(ConfigLoader):
     """Read yaml config file named config.yaml
 
-    Attributes:
+    Attributes
+    ----------
         cofnig_path: path of the config.yaml file
+
     """
 
     filename = "config.yaml"
@@ -39,7 +41,8 @@ class YamlConfigLoader(ConfigLoader):
         super().__init__()
 
         if not config_path.exists():
-            raise RuntimeError(f"{config_path} is not a valid path. Exiting")
+            msg = f"{config_path} is not a valid path. Make sure it exists. Exiting"
+            raise RuntimeError(msg)
 
         if config_path.is_dir():
             self.config_filepath = config_path / self.filename
@@ -49,12 +52,11 @@ class YamlConfigLoader(ConfigLoader):
         logger.info(f"Config file is {self.config_filepath}")
 
         if not self.config_filepath.exists():
-            raise RuntimeError(
-                f"No file named {self.filename} found inside {config_path}. Exiting"
-            )
+            msg = f"No file named {self.filename} found inside {config_path}. Exiting"
+            raise RuntimeError(msg)
 
     def load_config(self):
-        with open(self.config_filepath, "r") as file:
+        with open(self.config_filepath) as file:
             configuration = yaml.safe_load(file)
         logger.info(configuration)
         super().load_config()

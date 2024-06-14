@@ -1,27 +1,28 @@
-from datetime import UTC, datetime
 import json
 from abc import abstractmethod
+from datetime import UTC, datetime
 
 import requests
+from jsonschema import validate
 
 from .local_logging import logger
 from .sun_times import SunTimes
-from jsonschema import validate
 
 
 class SunTimesFetcher:
-    """Fetches sunrise and sunset times in UTC"""
+    """Fetches sunrise and sunset times in UTC."""
 
     @abstractmethod
     def fetch_sun_times(self) -> SunTimes:
         """Get the sunsrise and sunset times for your location in UTC
-        Returns: Return sunrise"""
-        pass
+        Returns: Return sunrise
+        """
 
 
 class SunTimesFetcherFromApi(SunTimesFetcher):
     """Get sunrise/sunset times from an API call
-    to default https://api.sunrise-sunset.org/json"""
+    to default https://api.sunrise-sunset.org/json
+    """
 
     default_api_uri = "https://api.sunrise-sunset.org/json"
     expected_schema = {
@@ -53,17 +54,19 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
     def run_request(self, lat: str, lng: str) -> SunTimes:
         """Run a get request to the endpoint
 
-        Raises:
+        Raises
+        ------
             RuntimeError: for not 200 responses
             RuntimeError: for not OK responses from the API
 
-        Returns:
+        Returns
+        -------
             Returns a dict with keys:
             ["sunrise"]
             ["sunset"]
             They include datetimes for sunrise and sunset datetimes
-        """
 
+        """
         payload = {
             "lat": lat,
             "lng": lng,
@@ -75,7 +78,7 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
         if r.status_code != 200:
             logger.critical(f"Error code received: {r.status_code}")
             raise RuntimeError(
-                f"Cannot get sun times, did not get 200. Got {r.status_code}"
+                f"Cannot get sun times, did not get 200. Got {r.status_code}",
             )
 
         # It will return a json
@@ -94,7 +97,8 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
 
         logger.debug(f"Sunrise returned: {sunr} - Sunset returned: {suns}")
         return SunTimes(
-            datetime.fromisoformat(sunr).timetz(), datetime.fromisoformat(suns).timetz()
+            datetime.fromisoformat(sunr).timetz(),
+            datetime.fromisoformat(suns).timetz(),
         )
 
     def _run_request(self) -> SunTimes:
