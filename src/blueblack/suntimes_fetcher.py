@@ -70,6 +70,7 @@ class SunTimesFetcherFromApi(SunTimesFetcher):
         payload = {
             "lat": lat,
             "lng": lng,
+            "tzid": "Asia/Shanghai",
             "formatted": "0",
         }
 
