@@ -1,7 +1,7 @@
 """Main file."""
 
 import time
-from datetime import UTC, datetime
+from datetime import datetime
 
 from blueblack import suntimes_fetcher
 from blueblack.config_loading import YamlConfigLoader
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     yaml_config_loader.load_config()
 
     suntimes_fetcher = suntimes_fetcher.SunTimesFetcherFromApi()
-    suntimes_fetcher.setup(yaml_config_loader.lat, yaml_config_loader.lng)
+    suntimes_fetcher.setup(yaml_config_loader.lat, yaml_config_loader.lng, yaml_config_loader.timezone)
     suntimes = suntimes_fetcher.fetch_sun_times()
 
     transition = Transitions()
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     seconds_rem = seconds_in_day * yaml_config_loader.update_days
 
     while True:
-        now_time = datetime.now(UTC).timetz()
+        now_time = datetime.now().timetz()
 
         next_transition = transition.calc_next(
             suntimes.sunrise_time,
