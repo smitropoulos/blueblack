@@ -2,6 +2,7 @@
 
 from abc import abstractmethod
 from pathlib import Path
+import datetime
 
 import xdg_base_dirs
 import yaml
@@ -19,6 +20,7 @@ class ConfigLoader:
         self.lat: str
         self.lng: str
         self.update_days: int
+        self.timezone: str
 
     @abstractmethod
     def load_config(self) -> None:
@@ -63,4 +65,5 @@ class YamlConfigLoader(ConfigLoader):
         self.lat = configuration["lat"]
         self.lng = configuration["lng"]
         self.update_days = configuration["update_days"]
+        self.timezone = configuration.get("timezone",datetime.datetime.now().tzinfo)
         return configuration
