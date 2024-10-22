@@ -66,4 +66,6 @@ class YamlConfigLoader(ConfigLoader):
         self.lng = configuration["lng"]
         self.update_days = configuration["update_days"]
         self.timezone = configuration.get("timezone",datetime.datetime.now().tzinfo)
+        self.offset_sunrise = configuration.get("offset_sunrise","0:0:0")
+        self.offset_sunset = configuration.get("offset_sunset","0:0:0")
         return configuration

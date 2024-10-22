@@ -3,20 +3,24 @@
 import time
 from datetime import datetime
 
-from blueblack import suntimes_fetcher
+# from blueblack import suntimes_fetcher
 from blueblack.config_loading import YamlConfigLoader
 from blueblack.local_logging import logger
 from blueblack.script_runner import ScriptRunner
 from blueblack.states import State
 from blueblack.transitions import Transitions
 
+from blueblack.resolver import TimeResolver
+
 if __name__ == "__main__":
     yaml_config_loader = YamlConfigLoader()
     yaml_config_loader.load_config()
 
-    suntimes_fetcher = suntimes_fetcher.SunTimesFetcherFromApi()
-    suntimes_fetcher.setup(yaml_config_loader.lat, yaml_config_loader.lng, yaml_config_loader.timezone)
-    suntimes = suntimes_fetcher.fetch_sun_times()
+    resolver = TimeResolver(yaml_config_loader.lat, yaml_config_loader.lng, yaml_config_loader.timezone, yaml_config_loader.offset_sunrise, yaml_config_loader.offset_sunset)
+
+    # suntimes_fetcher = suntimes_fetcher.SunTimesFetcherFromApi()
+    # suntimes_fetcher.setup(yaml_config_loader.lat, yaml_config_loader.lng, yaml_config_loader.timezone)
+    suntimes = resolver.resolve()
 
     transition = Transitions()
 
