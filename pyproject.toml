@@ -2,16 +2,14 @@
 name = "blueblack"
 version = "1.0.4"
 description = "Automatic light/dark mode transitions based on location"
-authors = ["Stefanos Mitropoulos"]
+authors = ["Stefanos Mitropoulos", "Solo E.V. (0xarch)"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
 pyyaml = "^6.0.1"
-requests = "^2.31.0"
 xdg-base-dirs = "^6.0.1"
-jsonschema = "^4.22.0"
-
+astral = "^3.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
