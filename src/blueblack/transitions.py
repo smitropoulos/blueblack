@@ -42,6 +42,9 @@ class Transitions:
         logger.debug(
             f"Getting next transition with now time: {time_now}, sunrise time: {sunrise_time}, sunset time: {sunset_time}"
         )
+        print("Now:    ", time_now)
+        print("Sunrise:", sunrise_time)
+        print("Sunset: ", sunset_time)
         if time_now >= sunrise_time and time_now < sunset_time:
             logger.debug("Returning Dark")
             return State.DARK
@@ -49,9 +52,9 @@ class Transitions:
         logger.debug("Returning Light")
         return State.LIGHT
 
-    def execute(self, st: State, runner: ScriptRunner):
+    def execute(self, st: State, runner: ScriptRunner) -> None:
         runner.run_scripts_in_dir(st)
         self.update_last_transition(st)
 
-    def update_last_transition(self, st: State):
+    def update_last_transition(self, st: State) -> None:
         self.last_transition = st

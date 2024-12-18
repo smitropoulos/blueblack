@@ -1,5 +1,6 @@
 # Configuration location is ~/.config/blueblack/config.yaml
-# Example configration. Google it or try here https://support.google.com/maps/answer/18539?hl=en&co=GENIE.Platform%3DDesktop
+# Example configuration. Google it or try here https://support.google.com/maps/answer/18539?hl=en&co=GENIE.Platform%3DDesktop
 "lat": 23.2003
 "lng": 31.1233
-"update_days": 1
+"offset_sunrise": "1:00:00" # Run 1 hour later
+"offset_sunset": "-0.5" # Run 30 minutes earlier

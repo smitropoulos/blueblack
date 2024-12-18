@@ -11,11 +11,7 @@ class SunTimes:
         return cls(sunrise_time=json_data["sunrise"], sunset_time=json_data["sunset"])
 
     def now_is_between_sun_times(self, now: time) -> bool:
-        if now >= self.sunrise_time and now <= self.sunset_time:
-            return True
-        return False
+        return bool(now >= self.sunrise_time and now <= self.sunset_time)
 
     def now_is_outside_sun_times(self, now: time) -> bool:
-        if now > self.sunset_time or now < self.sunrise_time:
-            return True
-        return False
+        return bool(now > self.sunset_time or now < self.sunrise_time)
