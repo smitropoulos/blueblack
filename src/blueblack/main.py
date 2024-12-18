@@ -5,11 +5,10 @@ from datetime import datetime
 
 from blueblack.config_loading import YamlConfigLoader
 from blueblack.local_logging import logger
+from blueblack.resolver import TimeResolver
 from blueblack.script_runner import ScriptRunner
 from blueblack.states import State
 from blueblack.transitions import Transitions
-
-from blueblack.resolver import TimeResolver
 
 if __name__ == "__main__":
     yaml_config_loader = YamlConfigLoader()

@@ -52,9 +52,9 @@ class Transitions:
         logger.debug("Returning Light")
         return State.LIGHT
 
-    def execute(self, st: State, runner: ScriptRunner):
+    def execute(self, st: State, runner: ScriptRunner) -> None:
         runner.run_scripts_in_dir(st)
         self.update_last_transition(st)
 
-    def update_last_transition(self, st: State):
+    def update_last_transition(self, st: State) -> None:
         self.last_transition = st
