@@ -3,7 +3,6 @@
 import time
 from datetime import datetime
 
-# from blueblack import suntimes_fetcher
 from blueblack.config_loading import YamlConfigLoader
 from blueblack.local_logging import logger
 from blueblack.script_runner import ScriptRunner
@@ -18,8 +17,6 @@ if __name__ == "__main__":
 
     resolver = TimeResolver(yaml_config_loader.lat, yaml_config_loader.lng, yaml_config_loader.timezone, yaml_config_loader.offset_sunrise, yaml_config_loader.offset_sunset)
 
-    # suntimes_fetcher = suntimes_fetcher.SunTimesFetcherFromApi()
-    # suntimes_fetcher.setup(yaml_config_loader.lat, yaml_config_loader.lng, yaml_config_loader.timezone)
     suntimes = resolver.resolve()
 
     transition = Transitions()
@@ -28,7 +25,6 @@ if __name__ == "__main__":
 
     seconds_in_day = 86400
     sleep_interval = 5
-    seconds_rem = seconds_in_day * yaml_config_loader.update_days
 
     while True:
         now_time = datetime.now().timetz()
@@ -57,13 +53,6 @@ if __name__ == "__main__":
 
             if next_transition == State.LIGHT and suntimes.now_is_between_sun_times(now_time):
                 transition.execute(State.LIGHT, script_runner)
-
-        # check if it is time to update the sunrise, sunset times
-        if seconds_rem <= 0:
-            suntimes = suntimes_fetcher.fetch_sun_times()
-            seconds_rem = seconds_in_day
-        else:
-            seconds_rem -= sleep_interval
 
         logger.debug("Sleeping now...")
         time.sleep(sleep_interval)
